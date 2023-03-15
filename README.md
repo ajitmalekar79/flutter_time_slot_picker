@@ -1,39 +1,42 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
+flutter_time_slot_picker
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
+A package that provide user to pick time slot by horizontal slider view. Also it will help to show the schedule of entity.
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+Getting started
 
-## Features
+In the pubspec.yaml of your flutter project, add the following dependency:
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+dependencies:
+  ...
+  flutter_time_slot_picker: <latest_version>
+In your library add the following import:
 
-## Getting started
+import 'package:flutter_time_slot_picker/flutter_time_slot_picker.dart';
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+For help getting started with Flutter, view the online documentation.
 
-## Usage
+TimeSlotPiker example
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+    FlutterTimeSlotPicker(
+        height: 60,
+        bookedSlots: [
+        '2:00-3:00',
+        '4:00-5:30',
+        '6:30-7:00',
+        '8:30-9:30',
+        '10:00-13:00',
+        '14:00-14:30',
+        '15:30-18:00',
+        ],
+        onSlotChange: (availablity, startTime, endTime) {
+        setState(() {
+            timeSlotAvailablity = availablity;
+            selectedStartTime = startTime;
+            selectedEndTime = endTime;
+        });
+        },
+    ),
 
-```dart
-const like = 'sample';
-```
-
-## Additional information
-
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+One can start with simply adding dependency and use FlutterTimeSlotPicker this widget to display Horizontal Time Slot Picker.
+<!-- ![Alt Text](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif) -->

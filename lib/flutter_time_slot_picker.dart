@@ -13,8 +13,8 @@ extension DateTimeExt on DateTime {
 
 typedef OnSlotChange = void Function(
   bool availablity,
-  DateTime startDate,
-  DateTime endDate,
+  DateTime startTime,
+  DateTime endTime,
 );
 
 // ignore: must_be_immutable
@@ -336,11 +336,19 @@ class _FlutterTimeSlotPickerState extends State<FlutterTimeSlotPicker> {
                                         true)
                                   Positioned(
                                     top: topTextHeight,
-                                    child: Image.asset(
-                                      'assets/images/time_slot_block.png',
+                                    child: Container(
                                       height: (widget.height - topTextHeight),
                                       width: 20,
-                                      fit: BoxFit.fill,
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Colors.grey.withOpacity(0.2),
+                                            Colors.grey.withOpacity(0.5),
+                                          ],
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 if (hiddenHours.contains(i) &&
@@ -352,11 +360,19 @@ class _FlutterTimeSlotPickerState extends State<FlutterTimeSlotPicker> {
                                   Positioned(
                                     top: topTextHeight,
                                     left: 20,
-                                    child: Image.asset(
-                                      'assets/images/time_slot_block.png',
+                                    child: Container(
                                       height: (widget.height - topTextHeight),
                                       width: 20,
-                                      fit: BoxFit.fill,
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Colors.grey.withOpacity(0.2),
+                                            Colors.grey.withOpacity(0.5),
+                                          ],
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 Column(
