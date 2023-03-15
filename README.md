@@ -39,4 +39,4 @@ TimeSlotPiker example
     ),
 
 One can start with simply adding dependency and use FlutterTimeSlotPicker this widget to display Horizontal Time Slot Picker.
-<!-- ![Alt Text](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif) -->
+![Alt Text](https://github.com/ajitmalekar79/flutter_time_slot_picker/blob/main/flutter_time_slot_picker.gif)
