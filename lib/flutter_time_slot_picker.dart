@@ -24,6 +24,7 @@ class FlutterTimeSlotPicker extends StatefulWidget {
   OnSlotChange? onSlotChange;
   DateTime? startTime;
   DateTime? endTime;
+  Widget? bookedSlotBackground;
   FlutterTimeSlotPicker({
     super.key,
     this.height = 150,
@@ -31,6 +32,7 @@ class FlutterTimeSlotPicker extends StatefulWidget {
     this.endTime,
     required this.bookedSlots,
     this.onSlotChange,
+    this.bookedSlotBackground,
   });
 
   @override
@@ -313,9 +315,6 @@ class _FlutterTimeSlotPickerState extends State<FlutterTimeSlotPicker> {
                     SizedBox(
                       height: widget.height,
                       width: i != 24 ? 40 : 2,
-                      // color: i == 5 ? theme.scaffoldColor : Colors.white,
-                      // margin: const EdgeInsets.only(left: 31),
-                      // decoration: BoxDecoration(),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -339,16 +338,21 @@ class _FlutterTimeSlotPickerState extends State<FlutterTimeSlotPicker> {
                                     child: Container(
                                       height: (widget.height - topTextHeight),
                                       width: 20,
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            Colors.grey.withOpacity(0.2),
-                                            Colors.grey.withOpacity(0.5),
-                                          ],
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                        ),
-                                      ),
+                                      decoration: widget.bookedSlotBackground !=
+                                              null
+                                          ? const BoxDecoration()
+                                          : BoxDecoration(
+                                              gradient: LinearGradient(
+                                                colors: [
+                                                  Colors.grey.withOpacity(0.2),
+                                                  Colors.grey.withOpacity(0.5),
+                                                ],
+                                                begin: Alignment.topCenter,
+                                                end: Alignment.bottomCenter,
+                                              ),
+                                            ),
+                                      child: widget.bookedSlotBackground ??
+                                          Container(),
                                     ),
                                   ),
                                 if (hiddenHours.contains(i) &&
@@ -363,16 +367,21 @@ class _FlutterTimeSlotPickerState extends State<FlutterTimeSlotPicker> {
                                     child: Container(
                                       height: (widget.height - topTextHeight),
                                       width: 20,
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            Colors.grey.withOpacity(0.2),
-                                            Colors.grey.withOpacity(0.5),
-                                          ],
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                        ),
-                                      ),
+                                      decoration: widget.bookedSlotBackground !=
+                                              null
+                                          ? const BoxDecoration()
+                                          : BoxDecoration(
+                                              gradient: LinearGradient(
+                                                colors: [
+                                                  Colors.grey.withOpacity(0.2),
+                                                  Colors.grey.withOpacity(0.5),
+                                                ],
+                                                begin: Alignment.topCenter,
+                                                end: Alignment.bottomCenter,
+                                              ),
+                                            ),
+                                      child: widget.bookedSlotBackground ??
+                                          Container(),
                                     ),
                                   ),
                                 Column(

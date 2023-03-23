@@ -10,9 +10,12 @@ In the pubspec.yaml of your flutter project, add the following dependency:
 dependencies:
   ...
   flutter_time_slot_picker: <latest_version>
+
+
 In your library add the following import:
 
 import 'package:flutter_time_slot_picker/flutter_time_slot_picker.dart';
+
 
 For help getting started with Flutter, view the online documentation.
 
