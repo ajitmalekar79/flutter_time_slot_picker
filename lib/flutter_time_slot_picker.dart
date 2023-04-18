@@ -22,12 +22,14 @@ class FlutterTimeSlotPicker extends StatefulWidget {
   final double height;
   List<String> bookedSlots;
   OnSlotChange? onSlotChange;
+  DateTime? initialTime;
   DateTime? startTime;
   DateTime? endTime;
   Widget? bookedSlotBackground;
   FlutterTimeSlotPicker({
     super.key,
     this.height = 150,
+    this.initialTime,
     this.startTime,
     this.endTime,
     required this.bookedSlots,
@@ -44,6 +46,7 @@ class _FlutterTimeSlotPickerState extends State<FlutterTimeSlotPicker> {
   double leftPositioned = 0;
   double sliderWidth = 40;
   double initialLeftPositioned = 0;
+  DateTime? initialTime;
   DateTime? selectedStartTime;
   DateTime? selectedEndTime;
   List<Map<String, dynamic>> hideSlots = [];
@@ -227,6 +230,57 @@ class _FlutterTimeSlotPickerState extends State<FlutterTimeSlotPicker> {
 
   getInitialLeftPosition() {
     // ignore: avoid-non-null-assertion
+    DateTime? startTime = initialTime!.applyTimeOfDay(
+      hour: 0,
+      minute: 0,
+    );
+    // ignore: avoid-non-null-assertion
+    String slotString = makeSlotString(startTime, initialTime!);
+    var slots = calculateSlots([slotString]);
+    int totalSlots = 0;
+    for (var element in slots) {
+      if (element['firstHalf'] == true) {
+        totalSlots += 1;
+      }
+      if (element['secondHalf'] == true) {
+        totalSlots += 1;
+      }
+    }
+    leftPositioned = totalSlots * 20;
+    initialLeftPositioned = leftPositioned;
+
+    slotString = makeSlotString(startTime, selectedStartTime!);
+    slots = calculateSlots([slotString]);
+    totalSlots = 0;
+    for (var element in slots) {
+      if (element['firstHalf'] == true) {
+        totalSlots += 1;
+      }
+      if (element['secondHalf'] == true) {
+        totalSlots += 1;
+      }
+    }
+    leftPositioned = totalSlots * 20;
+  }
+
+  getInitialWidth() {
+    // ignore: avoid-non-null-assertion
+    String slotString = makeSlotString(selectedStartTime!, selectedEndTime!);
+    var slots = calculateSlots([slotString]);
+    int totalSlots = 0;
+    for (var element in slots) {
+      if (element['firstHalf'] == true) {
+        totalSlots += 1;
+      }
+      if (element['secondHalf'] == true) {
+        totalSlots += 1;
+      }
+    }
+    sliderWidth = totalSlots * 20;
+  }
+
+  getSelectedInitialLeftPosition() {
+    // ignore: avoid-non-null-assertion
     DateTime? startTime = selectedStartTime!.applyTimeOfDay(
       hour: 0,
       minute: 0,
@@ -244,23 +298,6 @@ class _FlutterTimeSlotPickerState extends State<FlutterTimeSlotPicker> {
       }
     }
     leftPositioned = totalSlots * 20;
-    initialLeftPositioned = leftPositioned;
-  }
-
-  getInitialWidth() {
-    // ignore: avoid-non-null-assertion
-    String slotString = makeSlotString(selectedStartTime!, selectedEndTime!);
-    var slots = calculateSlots([slotString]);
-    int totalSlots = 0;
-    for (var element in slots) {
-      if (element['firstHalf'] == true) {
-        totalSlots += 1;
-      }
-      if (element['secondHalf'] == true) {
-        totalSlots += 1;
-      }
-    }
-    sliderWidth = totalSlots * 20;
   }
 
   loadInitialData() {
@@ -283,11 +320,16 @@ class _FlutterTimeSlotPickerState extends State<FlutterTimeSlotPicker> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    if (widget.initialTime != null) {
+      initialTime = widget.initialTime;
+    } else {
+      initialTime = DateTime.now().roundUp(delta: const Duration(minutes: 30));
+    }
     loadInitialData();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
         _scrollController.animateTo(
-          initialLeftPositioned - 100,
+          leftPositioned - 100,
           duration: const Duration(seconds: 1),
           curve: Curves.fastOutSlowIn,
         );

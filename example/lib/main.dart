@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_time_slot_picker/datetime_extensions.dart';
 import 'package:flutter_time_slot_picker/flutter_time_slot_picker.dart';
 
 void main() {
@@ -31,8 +32,18 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool timeSlotAvailablity = false;
-  DateTime? selectedStartTime;
+  DateTime? selectedStartTime =
+      DateTime.now().add(const Duration(hours: 2)).roundUp(
+            delta: const Duration(minutes: 30),
+          );
   DateTime? selectedEndTime;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    selectedEndTime = selectedStartTime!.add(const Duration(hours: 1));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +75,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   selectedEndTime = endTime;
                 });
               },
+              startTime: selectedStartTime,
+              endTime: selectedEndTime,
+              initialTime: DateTime.now().roundUp(
+                delta: const Duration(minutes: 30),
+              ),
             ),
             const SizedBox(
               height: 10,

@@ -5,3 +5,7 @@
 ## 0.0.2 - 23 March 2023
 
 * User can able to change background of booked slots.
+
+## 0.0.3 - 18 April 2023
+
+* Separation of inital time and selected start time.
