@@ -32,17 +32,32 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool timeSlotAvailablity = false;
-  DateTime? selectedStartTime =
+  DateTime selectedStartTime =
       DateTime.now().add(const Duration(hours: 2)).roundUp(
             delta: const Duration(minutes: 30),
           );
-  DateTime? selectedEndTime;
+  DateTime selectedEndTime = DateTime.now()
+      .add(const Duration(hours: 2))
+      .roundUp(
+        delta: const Duration(minutes: 30),
+      )
+      .add(const Duration(hours: 1));
+  List<String> bookedSlots = [
+    '2:00-3:00',
+    '4:00-5:30',
+    '6:30-7:00',
+    '8:30-9:30',
+    '10:00-13:00',
+    '14:00-14:30',
+    '15:30-18:00',
+  ];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    selectedEndTime = selectedStartTime!.add(const Duration(hours: 1));
+    timeSlotAvailablity = checkSlotAvailablity(
+        selectedStartTime, selectedEndTime, calculateSlots(bookedSlots));
   }
 
   @override
@@ -59,15 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
             FlutterTimeSlotPicker(
               height: 60,
               // ignore: prefer_const_literals_to_create_immutables
-              bookedSlots: [
-                '2:00-3:00',
-                '4:00-5:30',
-                '6:30-7:00',
-                '8:30-9:30',
-                '10:00-13:00',
-                '14:00-14:30',
-                '15:30-18:00',
-              ],
+              bookedSlots: bookedSlots,
               onSlotChange: (availablity, startTime, endTime) {
                 setState(() {
                   timeSlotAvailablity = availablity;
@@ -89,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             Text(
-              '${selectedStartTime ?? ''} - ${selectedEndTime ?? ''}',
+              '$selectedStartTime - $selectedEndTime',
               // style: Theme.of(context).textTheme.headline4,
             ),
             const SizedBox(

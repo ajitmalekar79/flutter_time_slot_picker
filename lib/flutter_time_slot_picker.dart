@@ -17,6 +17,135 @@ typedef OnSlotChange = void Function(
   DateTime endTime,
 );
 
+checkSlotAvailablity(DateTime startTime, DateTime endTime,
+    List<Map<String, dynamic>> hideSlots) {
+  String slotString = makeSlotString(startTime, endTime);
+  var slots = calculateSlots([slotString]);
+  bool availablity = true;
+  for (int i = 0; i < slots.length; i++) {
+    var matchedSlot = hideSlots.singleWhere(
+      (element) =>
+          element['i'] == slots[i]['i'] &&
+          (element['firstHalf'] == slots[i]['firstHalf'] ||
+              element['secondHalf'] == slots[i]['secondHalf']),
+      orElse: () => {},
+    );
+    if (matchedSlot.isNotEmpty) {
+      availablity = false;
+      break;
+    }
+  }
+
+  return availablity;
+}
+
+makeSlotString(DateTime startTime, DateTime endTime) {
+  final DateFormat formatter = DateFormat('HH:mm');
+  final String formattedStartTime = formatter.format(startTime);
+  final String formattedEndTime = formatter.format(endTime);
+
+  return '$formattedStartTime-$formattedEndTime';
+}
+
+// ignore: long-method
+List<Map<String, dynamic>> calculateSlots(List<String> slots) {
+  List<Map<String, dynamic>> mappedSlots = [];
+  for (var element in slots) {
+    var timeList = element.split('-');
+    var splitTime = timeList[0].split(':');
+    var splitTime2 = timeList[1].split(':');
+    TimeOfDay start = TimeOfDay(
+      hour: int.parse(splitTime[0]),
+      minute: int.parse(splitTime[1]),
+    );
+    TimeOfDay end = TimeOfDay(
+      hour: int.parse(splitTime2[0]),
+      minute: int.parse(splitTime2[1]),
+    );
+    int totalSlots = 0;
+    var hourMinus = end.hour - start.hour;
+    var minuteMinus = (end.minute - start.minute);
+    int minuteSlots = minuteMinus == 30
+        ? 1
+        : minuteMinus == -30
+            ? -1
+            : 0;
+    totalSlots += hourMinus * 2;
+    totalSlots += minuteSlots;
+    Map<String, dynamic> firstSlotToAdd = {
+      'i': int.parse(splitTime[0]),
+      'firstHalf': int.parse(splitTime[1]) == 0,
+      'secondHalf': int.parse(splitTime[1]) == 30,
+    };
+    if (totalSlots % 2 == 0) {
+      if (firstSlotToAdd['firstHalf'] == true) {
+        for (int i = 0; i < hourMinus; i++) {
+          Map<String, dynamic> slotToAdd = {
+            'i': int.parse(splitTime[0]) + i,
+            'firstHalf': true,
+            'secondHalf': true,
+          };
+          mappedSlots.add(slotToAdd);
+        }
+      } else {
+        mappedSlots.add(firstSlotToAdd);
+        for (int i = 1; i < hourMinus; i++) {
+          Map<String, dynamic> slotToAdd = {
+            'i': int.parse(splitTime[0]) + i,
+            'firstHalf': true,
+            'secondHalf': true,
+          };
+          mappedSlots.add(slotToAdd);
+        }
+        mappedSlots.add({
+          'i': int.parse(splitTime[0]) + hourMinus,
+          'firstHalf': true,
+          'secondHalf': false,
+        });
+      }
+    } else {
+      Map<String, dynamic> slotToAdd = {};
+      if (firstSlotToAdd['firstHalf'] == true) {
+        if (hourMinus > 0) {
+          for (int i = 0; i < hourMinus; i++) {
+            slotToAdd = {
+              'i': int.parse(splitTime[0]) + i,
+              'firstHalf': true,
+              'secondHalf': true,
+            };
+            mappedSlots.add(slotToAdd);
+          }
+          slotToAdd = {
+            'i': int.parse(splitTime[0]) + hourMinus,
+            'firstHalf': true,
+            'secondHalf': false,
+          };
+          mappedSlots.add(slotToAdd);
+        } else {
+          slotToAdd = {
+            'i': int.parse(splitTime[0]),
+            'firstHalf': true,
+            'secondHalf': false,
+          };
+          mappedSlots.add(slotToAdd);
+        }
+      } else {
+        mappedSlots.add(firstSlotToAdd);
+        for (int i = 1; i < hourMinus; i++) {
+          slotToAdd = {
+            'i': int.parse(splitTime[0]) + i,
+            'firstHalf': true,
+            'secondHalf': true,
+          };
+          mappedSlots.add(slotToAdd);
+        }
+      }
+    }
+  }
+
+  return mappedSlots;
+}
+
 // ignore: must_be_immutable
 class FlutterTimeSlotPicker extends StatefulWidget {
   final double height;
@@ -52,105 +181,6 @@ class _FlutterTimeSlotPickerState extends State<FlutterTimeSlotPicker> {
   List<Map<String, dynamic>> hideSlots = [];
   List hiddenHours = [];
   bool isAvailable = false;
-
-  // ignore: long-method
-  List<Map<String, dynamic>> calculateSlots(List<String> slots) {
-    List<Map<String, dynamic>> mappedSlots = [];
-    for (var element in slots) {
-      var timeList = element.split('-');
-      var splitTime = timeList[0].split(':');
-      var splitTime2 = timeList[1].split(':');
-      TimeOfDay start = TimeOfDay(
-        hour: int.parse(splitTime[0]),
-        minute: int.parse(splitTime[1]),
-      );
-      TimeOfDay end = TimeOfDay(
-        hour: int.parse(splitTime2[0]),
-        minute: int.parse(splitTime2[1]),
-      );
-      int totalSlots = 0;
-      var hourMinus = end.hour - start.hour;
-      var minuteMinus = (end.minute - start.minute);
-      int minuteSlots = minuteMinus == 30
-          ? 1
-          : minuteMinus == -30
-              ? -1
-              : 0;
-      totalSlots += hourMinus * 2;
-      totalSlots += minuteSlots;
-      Map<String, dynamic> firstSlotToAdd = {
-        'i': int.parse(splitTime[0]),
-        'firstHalf': int.parse(splitTime[1]) == 0,
-        'secondHalf': int.parse(splitTime[1]) == 30,
-      };
-      if (totalSlots % 2 == 0) {
-        if (firstSlotToAdd['firstHalf'] == true) {
-          for (int i = 0; i < hourMinus; i++) {
-            Map<String, dynamic> slotToAdd = {
-              'i': int.parse(splitTime[0]) + i,
-              'firstHalf': true,
-              'secondHalf': true,
-            };
-            mappedSlots.add(slotToAdd);
-          }
-        } else {
-          mappedSlots.add(firstSlotToAdd);
-          for (int i = 1; i < hourMinus; i++) {
-            Map<String, dynamic> slotToAdd = {
-              'i': int.parse(splitTime[0]) + i,
-              'firstHalf': true,
-              'secondHalf': true,
-            };
-            mappedSlots.add(slotToAdd);
-          }
-          mappedSlots.add({
-            'i': int.parse(splitTime[0]) + hourMinus,
-            'firstHalf': true,
-            'secondHalf': false,
-          });
-        }
-      } else {
-        Map<String, dynamic> slotToAdd = {};
-        if (firstSlotToAdd['firstHalf'] == true) {
-          if (hourMinus > 0) {
-            for (int i = 0; i < hourMinus; i++) {
-              slotToAdd = {
-                'i': int.parse(splitTime[0]) + i,
-                'firstHalf': true,
-                'secondHalf': true,
-              };
-              mappedSlots.add(slotToAdd);
-            }
-            slotToAdd = {
-              'i': int.parse(splitTime[0]) + hourMinus,
-              'firstHalf': true,
-              'secondHalf': false,
-            };
-            mappedSlots.add(slotToAdd);
-          } else {
-            slotToAdd = {
-              'i': int.parse(splitTime[0]),
-              'firstHalf': true,
-              'secondHalf': false,
-            };
-            mappedSlots.add(slotToAdd);
-          }
-        } else {
-          mappedSlots.add(firstSlotToAdd);
-          for (int i = 1; i < hourMinus; i++) {
-            slotToAdd = {
-              'i': int.parse(splitTime[0]) + i,
-              'firstHalf': true,
-              'secondHalf': true,
-            };
-            mappedSlots.add(slotToAdd);
-          }
-        }
-      }
-    }
-
-    return mappedSlots;
-  }
 
   adjustLeft() {
     int division = (leftPositioned / 20).round();
@@ -197,35 +227,6 @@ class _FlutterTimeSlotPickerState extends State<FlutterTimeSlotPicker> {
 
   String getHourString(int flooredValue) {
     return '${flooredValue % 24}'.padLeft(2, '0');
-  }
-
-  checkSlotAvailablity(DateTime startTime, DateTime endTime) {
-    String slotString = makeSlotString(startTime, endTime);
-    var slots = calculateSlots([slotString]);
-    bool availablity = true;
-    for (int i = 0; i < slots.length; i++) {
-      var matchedSlot = hideSlots.singleWhere(
-        (element) =>
-            element['i'] == slots[i]['i'] &&
-            (element['firstHalf'] == slots[i]['firstHalf'] ||
-                element['secondHalf'] == slots[i]['secondHalf']),
-        orElse: () => {},
-      );
-      if (matchedSlot.isNotEmpty) {
-        availablity = false;
-        break;
-      }
-    }
-
-    return availablity;
-  }
-
-  makeSlotString(DateTime startTime, DateTime endTime) {
-    final DateFormat formatter = DateFormat('HH:mm');
-    final String formattedStartTime = formatter.format(startTime);
-    final String formattedEndTime = formatter.format(endTime);
-
-    return '$formattedStartTime-$formattedEndTime';
   }
 
   getInitialLeftPosition() {
@@ -313,6 +314,7 @@ class _FlutterTimeSlotPickerState extends State<FlutterTimeSlotPicker> {
     isAvailable = checkSlotAvailablity(
       //ignore: avoid-non-null-assertion
       selectedStartTime!, selectedEndTime!,
+      hideSlots,
     );
   }
 
@@ -507,7 +509,7 @@ class _FlutterTimeSlotPickerState extends State<FlutterTimeSlotPicker> {
                           calculateTimeSlot();
                           isAvailable = checkSlotAvailablity(
                             //ignore: avoid-non-null-assertion
-                            selectedStartTime!, selectedEndTime!,
+                            selectedStartTime!, selectedEndTime!, hideSlots,
                           );
                           //ignore: avoid-non-null-assertion
                           widget.onSlotChange!(
@@ -560,7 +562,7 @@ class _FlutterTimeSlotPickerState extends State<FlutterTimeSlotPicker> {
                             calculateTimeSlot();
                             isAvailable = checkSlotAvailablity(
                               //ignore: avoid-non-null-assertion
-                              selectedStartTime!, selectedEndTime!,
+                              selectedStartTime!, selectedEndTime!, hideSlots,
                             );
                             //ignore: avoid-non-null-assertion
                             widget.onSlotChange!(
@@ -611,7 +613,7 @@ class _FlutterTimeSlotPickerState extends State<FlutterTimeSlotPicker> {
                             calculateTimeSlot();
                             isAvailable = checkSlotAvailablity(
                               //ignore: avoid-non-null-assertion
-                              selectedStartTime!, selectedEndTime!,
+                              selectedStartTime!, selectedEndTime!, hideSlots,
                             );
                             //ignore: avoid-non-null-assertion
                             widget.onSlotChange!(
