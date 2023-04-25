@@ -9,3 +9,7 @@
 ## 0.0.3 - 18 April 2023
 
 * Separation of inital time and selected start time.
+
+## 0.0.4 - 25 April 2023
+
+* Check slot availability standalone
