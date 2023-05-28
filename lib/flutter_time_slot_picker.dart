@@ -239,16 +239,18 @@ class _FlutterTimeSlotPickerState extends State<FlutterTimeSlotPicker> {
     String slotString = makeSlotString(startTime, initialTime!);
     var slots = calculateSlots([slotString]);
     int totalSlots = 0;
-    for (var element in slots) {
-      if (element['firstHalf'] == true) {
-        totalSlots += 1;
+    if (!startTime.isAtSameMomentAs(initialTime!)) {
+      for (var element in slots) {
+        if (element['firstHalf'] == true) {
+          totalSlots += 1;
+        }
+        if (element['secondHalf'] == true) {
+          totalSlots += 1;
+        }
       }
-      if (element['secondHalf'] == true) {
-        totalSlots += 1;
-      }
+      leftPositioned = totalSlots * 20;
+      initialLeftPositioned = leftPositioned;
     }
-    leftPositioned = totalSlots * 20;
-    initialLeftPositioned = leftPositioned;
 
     slotString = makeSlotString(startTime, selectedStartTime!);
     slots = calculateSlots([slotString]);

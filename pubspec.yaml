@@ -1,6 +1,6 @@
 name: flutter_time_slot_picker
 description: A package that provide user to pick time slot by horizontal slider view. Also it will help to show the schedule of entity.
-version: 0.0.5
+version: 0.0.6
 homepage: https://github.com/ajitmalekar79/flutter_time_slot_picker.git
 
 environment:

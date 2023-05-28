@@ -17,3 +17,7 @@
 ## 0.0.5 - 28 May 2023
 
 * Last hour slot update issue
+
+## 0.0.6 - 28 May 2023
+
+* Initial time issue for future dates
