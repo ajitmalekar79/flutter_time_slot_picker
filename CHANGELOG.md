@@ -13,3 +13,7 @@
 ## 0.0.4 - 25 April 2023
 
 * Check slot availability standalone
+
+## 0.0.5 - 28 May 2023
+
+* Last hour slot update issue

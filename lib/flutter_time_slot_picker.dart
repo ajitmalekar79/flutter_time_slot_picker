@@ -59,7 +59,7 @@ List<Map<String, dynamic>> calculateSlots(List<String> slots) {
       minute: int.parse(splitTime[1]),
     );
     TimeOfDay end = TimeOfDay(
-      hour: int.parse(splitTime2[0]),
+      hour: int.parse(splitTime2[0]) == 0 ? 24 : int.parse(splitTime2[0]),
       minute: int.parse(splitTime2[1]),
     );
     int totalSlots = 0;
