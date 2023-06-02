@@ -21,3 +21,7 @@
 ## 0.0.6 - 28 May 2023
 
 * Initial time issue for future dates
+
+## 0.0.7 - 2 June 2023
+
+* Overlapping time slots manage
