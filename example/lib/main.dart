@@ -32,24 +32,30 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool timeSlotAvailablity = false;
-  DateTime selectedStartTime =
-      DateTime.now().add(const Duration(hours: 2)).roundUp(
-            delta: const Duration(minutes: 30),
-          );
+  DateTime selectedStartTime = DateTime.now().roundUp(
+    delta: const Duration(minutes: 30),
+  );
   DateTime selectedEndTime = DateTime.now()
-      .add(const Duration(hours: 2))
       .roundUp(
         delta: const Duration(minutes: 30),
       )
-      .add(const Duration(hours: 1));
+      .add(const Duration(minutes: 30));
   List<String> bookedSlots = [
-    '2:00-3:00',
-    '4:00-5:30',
-    '6:30-7:00',
-    '8:30-9:30',
-    '10:00-13:00',
-    '14:00-14:30',
-    '15:30-18:00',
+    // '2:00-3:00',
+    // '4:00-5:30',
+    // '6:30-7:00',
+    // '8:30-9:30',
+    // '10:00-13:00',
+    // '14:00-14:30',
+    // '15:30-18:00',
+    // '1:00-3:00'
+
+    // "12:0-13:30",
+    // "16:30-17:0",
+    // "18:0-19:0",
+    // "0:0-13:30"
+    "14:30-15:0",
+    "0:0-17:0"
   ];
 
   @override

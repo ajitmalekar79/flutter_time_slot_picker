@@ -85,6 +85,23 @@ List<Map<String, dynamic>> calculateSlots(List<String> slots) {
             'firstHalf': true,
             'secondHalf': true,
           };
+          final mappedSlot = mappedSlots.firstWhere(
+            (mapped) => mapped['i'] == slotToAdd['i'],
+            orElse: () => {},
+          );
+          if (mappedSlot.isNotEmpty) {
+            slotToAdd = {
+              'i': int.parse(splitTime[0]) + i,
+              'firstHalf': mappedSlot['firstHalf']
+                  ? mappedSlot['firstHalf']
+                  : slotToAdd['firstHalf'],
+              'secondHalf': mappedSlot['secondHalf']
+                  ? mappedSlot['secondHalf']
+                  : slotToAdd['secondHalf'],
+            };
+            mappedSlots.removeWhere(
+                (mappedElement) => mappedElement['i'] == mappedSlot['i']);
+          }
           mappedSlots.add(slotToAdd);
         }
       } else {
@@ -95,13 +112,45 @@ List<Map<String, dynamic>> calculateSlots(List<String> slots) {
             'firstHalf': true,
             'secondHalf': true,
           };
+          final mappedSlot = mappedSlots.firstWhere(
+            (mapped) => mapped['i'] == slotToAdd['i'],
+            orElse: () => {},
+          );
+          if (mappedSlot.isNotEmpty) {
+            slotToAdd = {
+              'i': int.parse(splitTime[0]) + i,
+              'firstHalf': mappedSlot['firstHalf']
+                  ? mappedSlot['firstHalf']
+                  : slotToAdd['firstHalf'],
+              'secondHalf': mappedSlot['secondHalf']
+                  ? mappedSlot['secondHalf']
+                  : slotToAdd['secondHalf'],
+            };
+            mappedSlots.removeWhere(
+                (mappedElement) => mappedElement['i'] == mappedSlot['i']);
+          }
           mappedSlots.add(slotToAdd);
         }
-        mappedSlots.add({
-          'i': int.parse(splitTime[0]) + hourMinus,
-          'firstHalf': true,
-          'secondHalf': false,
-        });
+        final mappedSlot = mappedSlots.firstWhere(
+          (mapped) => mapped['i'] == (int.parse(splitTime[0]) + hourMinus),
+          orElse: () => {},
+        );
+        if (mappedSlot.isNotEmpty) {
+          mappedSlots.removeWhere(
+              (mappedElement) => mappedElement['i'] == mappedSlot['i']);
+          mappedSlots.add({
+            'i': (int.parse(splitTime[0]) + hourMinus),
+            'firstHalf': true,
+            'secondHalf':
+                mappedSlot['secondHalf'] ? mappedSlot['secondHalf'] : false,
+          });
+        } else {
+          mappedSlots.add({
+            'i': int.parse(splitTime[0]) + hourMinus,
+            'firstHalf': true,
+            'secondHalf': false,
+          });
+        }
       }
     } else {
       Map<String, dynamic> slotToAdd = {};
@@ -113,6 +162,23 @@ List<Map<String, dynamic>> calculateSlots(List<String> slots) {
               'firstHalf': true,
               'secondHalf': true,
             };
+            final mappedSlot = mappedSlots.firstWhere(
+              (mapped) => mapped['i'] == slotToAdd['i'],
+              orElse: () => {},
+            );
+            if (mappedSlot.isNotEmpty) {
+              slotToAdd = {
+                'i': int.parse(splitTime[0]) + i,
+                'firstHalf': mappedSlot['firstHalf']
+                    ? mappedSlot['firstHalf']
+                    : slotToAdd['firstHalf'],
+                'secondHalf': mappedSlot['secondHalf']
+                    ? mappedSlot['secondHalf']
+                    : slotToAdd['secondHalf'],
+              };
+              mappedSlots.removeWhere(
+                  (mappedElement) => mappedElement['i'] == mappedSlot['i']);
+            }
             mappedSlots.add(slotToAdd);
           }
           slotToAdd = {
@@ -120,6 +186,23 @@ List<Map<String, dynamic>> calculateSlots(List<String> slots) {
             'firstHalf': true,
             'secondHalf': false,
           };
+          final mappedSlot = mappedSlots.firstWhere(
+            (mapped) => mapped['i'] == slotToAdd['i'],
+            orElse: () => {},
+          );
+          if (mappedSlot.isNotEmpty) {
+            slotToAdd = {
+              'i': (int.parse(splitTime[0]) + hourMinus),
+              'firstHalf': mappedSlot['firstHalf']
+                  ? mappedSlot['firstHalf']
+                  : slotToAdd['firstHalf'],
+              'secondHalf': mappedSlot['secondHalf']
+                  ? mappedSlot['secondHalf']
+                  : slotToAdd['secondHalf'],
+            };
+            mappedSlots.removeWhere(
+                (mappedElement) => mappedElement['i'] == mappedSlot['i']);
+          }
           mappedSlots.add(slotToAdd);
         } else {
           slotToAdd = {
@@ -127,6 +210,23 @@ List<Map<String, dynamic>> calculateSlots(List<String> slots) {
             'firstHalf': true,
             'secondHalf': false,
           };
+          final mappedSlot = mappedSlots.firstWhere(
+            (mapped) => mapped['i'] == [slotToAdd['i']],
+            orElse: () => {},
+          );
+          if (mappedSlot.isNotEmpty) {
+            slotToAdd = {
+              'i': int.parse(splitTime[0]),
+              'firstHalf': mappedSlot['firstHalf']
+                  ? mappedSlot['firstHalf']
+                  : slotToAdd['firstHalf'],
+              'secondHalf': mappedSlot['secondHalf']
+                  ? mappedSlot['secondHalf']
+                  : slotToAdd['secondHalf'],
+            };
+            mappedSlots.removeWhere(
+                (mappedElement) => mappedElement['i'] == mappedSlot['i']);
+          }
           mappedSlots.add(slotToAdd);
         }
       } else {
@@ -137,6 +237,23 @@ List<Map<String, dynamic>> calculateSlots(List<String> slots) {
             'firstHalf': true,
             'secondHalf': true,
           };
+          final mappedSlot = mappedSlots.firstWhere(
+            (mapped) => mapped['i'] == [slotToAdd['i']],
+            orElse: () => {},
+          );
+          if (mappedSlot.isNotEmpty) {
+            slotToAdd = {
+              'i': int.parse(splitTime[0]) + i,
+              'firstHalf': mappedSlot['firstHalf']
+                  ? mappedSlot['firstHalf']
+                  : slotToAdd['firstHalf'],
+              'secondHalf': mappedSlot['secondHalf']
+                  ? mappedSlot['secondHalf']
+                  : slotToAdd['secondHalf'],
+            };
+            mappedSlots.removeWhere(
+                (mappedElement) => mappedElement['i'] == mappedSlot['i']);
+          }
           mappedSlots.add(slotToAdd);
         }
       }
