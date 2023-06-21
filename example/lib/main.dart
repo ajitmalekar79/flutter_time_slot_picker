@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_time_slot_picker/datetime_extensions.dart';
+
 import 'package:flutter_time_slot_picker/flutter_time_slot_picker.dart';
 
 void main() {
@@ -41,21 +42,19 @@ class _MyHomePageState extends State<MyHomePage> {
       )
       .add(const Duration(minutes: 30));
   List<String> bookedSlots = [
-    // '2:00-3:00',
-    // '4:00-5:30',
-    // '6:30-7:00',
-    // '8:30-9:30',
+    '11:30-12:0',
+    '12:0-12:30',
+    '12:30-13:0',
+    // '13:30-14:0',
     // '10:00-13:00',
     // '14:00-14:30',
     // '15:30-18:00',
     // '1:00-3:00'
 
-    // "12:0-13:30",
-    // "16:30-17:0",
-    // "18:0-19:0",
-    // "0:0-13:30"
-    "14:30-15:0",
-    "0:0-17:0"
+    "17:0-17:30",
+    "17:30-18:0",
+    "18:0-18:30",
+    "0:0-17:30"
   ];
 
   @override

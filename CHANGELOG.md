@@ -25,3 +25,7 @@
 ## 0.0.7 - 2 June 2023
 
 * Overlapping time slots manage
+
+## 0.0.8 - 21 June 2023
+
+* Overlapping time slots manage bug in first slot resolved

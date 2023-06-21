@@ -77,6 +77,24 @@ List<Map<String, dynamic>> calculateSlots(List<String> slots) {
       'firstHalf': int.parse(splitTime[1]) == 0,
       'secondHalf': int.parse(splitTime[1]) == 30,
     };
+    final mappedSlotFirst = mappedSlots.firstWhere(
+      (mapped) => mapped['i'] == firstSlotToAdd['i'],
+      orElse: () => {},
+    );
+    if (mappedSlotFirst.isNotEmpty) {
+      firstSlotToAdd = {
+        'i': firstSlotToAdd['i'],
+        'firstHalf': mappedSlotFirst['firstHalf']
+            ? mappedSlotFirst['firstHalf']
+            : firstSlotToAdd['firstHalf'],
+        'secondHalf': mappedSlotFirst['secondHalf']
+            ? mappedSlotFirst['secondHalf']
+            : firstSlotToAdd['secondHalf'],
+      };
+      mappedSlots.removeWhere(
+          (mappedElement) => mappedElement['i'] == mappedSlotFirst['i']);
+    }
+
     if (totalSlots % 2 == 0) {
       if (firstSlotToAdd['firstHalf'] == true) {
         for (int i = 0; i < hourMinus; i++) {
