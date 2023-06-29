@@ -1,7 +1,8 @@
+import 'package:example/time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_time_slot_picker/datetime_extensions.dart';
 
-import 'package:flutter_time_slot_picker/flutter_time_slot_picker.dart';
+// import 'package:flutter_time_slot_picker/flutter_time_slot_picker.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,27 +35,24 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool timeSlotAvailablity = false;
   DateTime selectedStartTime = DateTime.now().roundUp(
-    delta: const Duration(minutes: 30),
+    delta: const Duration(minutes: 15),
   );
   DateTime selectedEndTime = DateTime.now()
       .roundUp(
-        delta: const Duration(minutes: 30),
+        delta: const Duration(minutes: 15),
       )
-      .add(const Duration(minutes: 30));
+      .add(const Duration(minutes: 15));
   List<String> bookedSlots = [
-    '11:30-12:0',
-    '12:0-12:30',
-    '12:30-13:0',
-    // '13:30-14:0',
-    // '10:00-13:00',
-    // '14:00-14:30',
-    // '15:30-18:00',
-    // '1:00-3:00'
-
-    "17:0-17:30",
-    "17:30-18:0",
-    "18:0-18:30",
-    "0:0-17:30"
+    '11:0-11:15',
+    '11:15-11:30',
+    '11:30-11:45',
+    "11:45-12:0",
+    "12:0-12:45",
+    "13:15-13:45",
+    "14:15-15:15",
+    "12:30-13:0",
+    "22:15-22:30",
+    "22:45-23:30",
   ];
 
   @override
@@ -90,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
               startTime: selectedStartTime,
               endTime: selectedEndTime,
               initialTime: DateTime.now().roundUp(
-                delta: const Duration(minutes: 30),
+                delta: const Duration(minutes: 15),
               ),
             ),
             const SizedBox(
